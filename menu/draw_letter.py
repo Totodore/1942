@@ -24,6 +24,7 @@ peut aussi retourner QUIT pour fermer le jeu
 def draw_letter(surface, index, pos, end):
     #on charge le son  et le fond
     sound = mixer.Sound(bytes(path.join(SOUND_DIR, "typewriter.wav"), 'UTF-8'))
+    mixer.music.load(path.join(SOUND_DIR, "letter_music.wav"))
     img = image.load(path.join(MENU_DIR, "fond_lettre.png")).convert_alpha()
     img = transform.scale(img, (1000, 600))
     letter_img = image.load(path.join(MENU_DIR, "lettre.png")).convert_alpha()
@@ -61,7 +62,8 @@ def draw_letter(surface, index, pos, end):
     run_text = True
     #tableau de toutes les lignes
     text_lines = [""]
-    sound.play()
+    sound.play(-1)
+    mixer.music.play(-1)
 
     #petite ligne en bas de la feuille
     text_info = write_font.render("Pour continuer pressez entrer...", True, BLACK)
@@ -127,13 +129,7 @@ def draw_letter(surface, index, pos, end):
             #si le texte est fini on arrete de l'écrire et on coupe la musique
             if letter_index > len(text) - 1:
                 run_text = False
-            if not run_text:
                 sound.fadeout(400)
-        
-        #quand le bruitage fini on le relance tant que le texte s'écrit
-        if now - last_sound > TYPEWRITER_LEN and run_text:
-            last_sound = now
-            sound.play(0)
 
         #on affiche le fond
         surface.blit(img, (0, 0))

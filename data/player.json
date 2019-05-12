@@ -1,0 +1,208 @@
+{
+    "body": [
+        {
+            "id": 0,
+            "nom": "Biplane",
+            "image": "./img/mobs/planes/biplane/",
+            "sound":"./sounds/planes/2.wav",
+            "vitesse": 60,
+            "vie": 40,
+            "random_shoot": 100,
+            "munitions": [
+                {
+                    "id": 5,                    
+                    "image": "./img/mobs/bullets/Image5.png",
+                    "sound": "./sounds/bullets/1.wav",
+                    "frequence_de_tir": 150,
+                    "base_munitions": 200,
+                    "vitesse": 100,
+                    "degats": 20
+                },
+                {
+                    "id": 1,
+                    "image": "./img/mobs/bullets/Image1.png",
+                    "sound": "./sounds/bullets/0.wav",
+                    "frequence_de_tir": 300,
+                    "base_munitions": 50,
+                    "vitesse": 20,
+                    "degats": 50
+                }
+
+            ]
+        },
+        {
+            "id": 1,
+            "nom": "TBM3",
+            "image": "./img/mobs/planes/TBM3/",
+            "sound": "./sounds/planes/1.wav",
+            "vitesse": 40,
+            "vie": 60,
+            "random_shoot": 80,
+            "munitions": [
+                {
+                    "id": 5,                    
+                    "image": "./img/mobs/bullets/Image5.png",
+                    "sound": "./sounds/bullets/1.wav",
+                    "frequence_de_tir": 175,
+                    "base_munitions": 200,
+                    "vitesse": 70,
+                    "degats": 20
+                }, 
+                {
+                    "id": 2,
+                    "image": "./img/mobs/bullets/Image2.png",
+                    "sound": "./sounds/bullets/5.wav",
+                    "frequence_de_tir": 500,
+                    "base_munitions": 80,
+                    "vitesse": 100,
+                    "degats": 70
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "nom": "BF-109E",
+            "image": "./img/mobs/planes/BF-109E/",
+            "sound": "./sounds/planes/1.wav",
+            "vitesse": 30,
+            "vie": 100,
+            "random_shoot": 70,
+            "munitions": [
+                {
+                    "id": 4,
+                    "image": "./img/mobs/bullets/Image4.png",
+                    "sound": "./sounds/bullets/7.wav",
+                    "frequence_de_tir": 200,
+                    "base_munitions": 150,
+                    "vitesse": 50,
+                    "degats": 25
+                },
+                {
+                    "id": 2,
+                    "image": "./img/mobs/bullets/Image2.png",
+                    "sound":"./sounds/bullets/5.wav",
+                    "frequence_de_tir": 500,
+                    "base_munitions": 200,
+                    "vitesse": 100,
+                    "degats": 70
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "nom": "Hawker Tempest",
+            "image": "./img/mobs/planes/tempest/",
+            "sound": "./sounds/planes/3.wav",
+            "vitesse": 50,
+            "vie": 50,
+            "random_shoot": 30,
+            "munitions": [
+                {
+                    "id": 3,                    
+                    "image": "./img/mobs/bullets/Image3.png",
+                    "sound":"./sounds/bullets/10.wav",
+                    "frequence_de_tir": 80,
+                    "base_munitions": 100,
+                    "vitesse": 100,
+                    "degats": 20
+                },
+                {
+                    "id": 4,
+                    "image": "./img/mobs/bullets/Image4.png",
+                    "sound": "./sounds/bullets/7.wav",
+                    "frequence_de_tir": 200,
+                    "base_munitions": 150,
+                    "vitesse": 50,
+                    "degats": 25
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "nom": "JU-87B2",
+            "image": "./img/mobs/planes/JU-87B2/",
+            "sound": "./sounds/planes/4.wav",
+            "vitesse": 40,
+            "vie": 100,
+            "random_shoot": 70,            
+            "munitions": [
+                {
+                    "id": 6,                    
+                    "image": "./img/mobs/bullets/Image6.png",
+                    "sound": "./sounds/bullets/6.wav",
+                    "frequence_de_tir": 1000,
+                    "base_munitions": 50,
+                    "vitesse": 50,
+                    "degats": 200
+                }, 
+                {
+                    "id": 2,
+                    "image": "./img/mobs/bullets/Image2.png",
+                    "sound": "./sounds/bullets/5.wav",
+                    "frequence_de_tir": 500,
+                    "base_munitions": 200,
+                    "vitesse": 100,
+                    "degats": 70
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "nom": "Blenheim",
+            "image": "./img/mobs/planes/Blenheim/",
+            "sound": "./sounds/planes/0.wav",
+            "vitesse": 25,
+            "vie": 150,
+            "random_shoot": 150,
+            "munitions": [
+                {
+                    "id": 3,                    
+                    "image": "./img/mobs/bullets/Image3.png",
+                    "sound": "./sounds/bullets/10.wav",
+                    "frequence_de_tir": 200,
+                    "base_munitions": 200,
+                    "vitesse": 50,
+                    "degats": 25
+                },
+                {
+                    "id": 6,
+                    "image": "./img/mobs/bullets/Image6.png",
+                    "sound": "./sounds/bullets/6.wav",
+                    "frequence_de_tir": 1000,
+                    "base_munitions": 50,
+                    "vitesse": 50,
+                    "degats": 200
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "nom": "B-17",
+            "image": "./img/mobs/planes/B-17/",
+            "sound": "./sounds/planes/0.wav",
+            "vitesse": 25,
+            "vie": 200,
+            "random_shoot": 125,
+            "munitions": [
+                {
+                    "id": 6,
+                    "image": "./img/mobs/bullets/Image6.png",
+                    "sound": "./sounds/bullets/6.wav",
+                    "frequence_de_tir": 1000,
+                    "base_munitions": 50,
+                    "vitesse": 50,
+                    "degats": 200
+                },
+                {
+                    "id": 5,                    
+                    "image": "./img/mobs/bullets/Image5.png",
+                    "sound": "./sounds/bullets/1.wav",
+                    "frequence_de_tir": 200,
+                    "base_munitions": 200,
+                    "vitesse": 50,
+                    "degats": 25
+                }
+            ]
+        }
+    ]
+}

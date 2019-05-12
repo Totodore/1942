@@ -13,7 +13,7 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 WRITE_TIME = 5  #vitesse d'écriture
 FLASH_DELAY = 400
-TYPEWRITER_LEN = 6383   #nbr max de char sur une lettre
+TYPEWRITER_LEN = 6383   
 ARROW_MOVE = 20     #représente l'amplitude de deplacement des flèches
 ARROW_DELAY = 20    #représente la vitesse de deplacement des flèches
 

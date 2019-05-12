@@ -10,7 +10,7 @@ from engine.interface import EngineInterface
 from os import path
 from constants import *
 
-global screen, actual_level
+# global screen, actual_level
 
 """
 Fonction qui récupère les évenements correspondant à la fermeture du jeu

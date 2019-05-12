@@ -5,6 +5,10 @@ import pygame
 import json
 import os
 
+
+"""
+Classe gérant l'interface et le menu Arcade
+"""
 class Arcade_Interface:
     def __init__(self, screen):
         self.display = True
@@ -15,13 +19,16 @@ class Arcade_Interface:
         self.background = image.load(path.join(ARCADE_DIR, "arcade_background.png")).convert_alpha()
         self.carte = image.load(path.join(ARCADE_DIR, "arcade_map.png")).convert_alpha()
         self.frame = image.load(path.join(ARCADE_DIR, "frame_arcade.png")).convert_alpha()
+
         #redimmensionnement des images
         self.carte = transform.scale(self.carte, (310, 500))
         self.frame = transform.scale(self.frame, (330, 520))
+
         #on positionne le cadre de selection
         self.frame_rect = self.frame.get_rect()
         self.frame_rect.y = int((HEIGHT-self.carte.get_height())/2)-10
         self.frame_rect.x = 10
+
         #chargement et positionnement des flèches
         self.last_anim = 0
         self.arrow_l = image.load(path.join(ARCADE_DIR, "arrow_left.png")).convert_alpha()
@@ -43,14 +50,19 @@ class Arcade_Interface:
         self.arrow_up_rect.center = (self.frame_rect.centerx, 80)
         self.arrow_down_rect = self.arrow_down.get_rect()
         self.arrow_down_rect.center = (self.frame_rect.centerx, HEIGHT-80)
+
         #chargement de la police d'écriture
         self.write_font = font.Font(path.join(FONT_DIR, "ath.ttf"), 30)
 
+        #initialisation des variables
+        #self.posx: selection des avions avec fleches latérales
+        #self.posy: selection des couleurs avec fleches haut/bas
         self.img_planes = ([],[])
         self.posx = 0
         self.posy = 0
         self.display_frame = True
         self.last_flash = 0
+
         #pour chaque avion
         for plane in self.json_planes:
             color_planes = []
@@ -71,10 +83,14 @@ class Arcade_Interface:
             self.img_planes[0].append(color_planes)
             self.img_planes[1].append(ammo_planes)
 
+    """
+    Méthode de gestion des evenements 
+    """
     def event_handler(self):
+        #on récupère les evenements
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                #touches latérale on change la position en x et on reset a 0 en y
+                #touches latérale on change l'avion et on remet la couleur à la première
                 if event.key == pygame.K_LEFT:
                     self.posx -= 1
                     self.posy = 0
@@ -85,7 +101,7 @@ class Arcade_Interface:
                     self.posy = 0
                     if self.posx > len(self.img_planes[0])-1:
                         self.posx = len(self.img_planes[0])-1
-                #touches haut et bas on change la position en y
+                #touches haut et bas on change la couleure
                 elif event.key == pygame.K_UP:
                     self.posy += 1
                     if self.posy > len(self.img_planes[0][self.posx])-1:
@@ -94,6 +110,7 @@ class Arcade_Interface:
                     self.posy -= 1
                     if self.posy < 0:
                         self.posy = 0
+                #appuis sur entrer : on retourne l'avion et la couleure
                 elif event.key == pygame.K_RETURN:
                     return (self.posx, self.posy)
                 elif event.key == pygame.K_ESCAPE:
@@ -103,23 +120,29 @@ class Arcade_Interface:
                 self.display = False
                 return pygame.QUIT
 
+    """
+    Méthode de gestion de l'affichage des avions
+    """
     def planes_handler(self):
         #pour chaque avions
         i = 0
         for img in self.img_planes[0]:
-            #on set des coordonnées 20: marge de gauche on ajoute le nombre de pixels par carte avion et 
-            #on soustrait par le nombre pixel correspondant a la position
+            #on set des coordonnées 20: marge de gauche,
+            #on ajoute le nombre de pixels par carte avion pour avoir un affichage en ligne
+            #on soustrait par le nombre pixel correspondant a la position pour avoir un défilement
             x = 20 + ((self.carte.get_width()+10)*i) - ((self.carte.get_width()+10)*self.posx)
             y = int((HEIGHT-self.carte.get_height())/2)
             carte_rect = self.carte.get_rect()
             carte_rect.x = x
             carte_rect.y = y
+
             #si l'avion est celui sur le curseur on récup la couleur correspondant à posy
             #sinon on prend la première couleur
             if i == self.posx:
                 plane = img[self.posy]
             else:
                 plane = img[0]
+
             #on positionne l'avion
             plane_rect = plane.get_rect()
             plane_rect.centerx = int(carte_rect.width/2) + x
@@ -174,32 +197,44 @@ class Arcade_Interface:
                 k += 1
             i += 1
 
+    """
+    Méthode de gestion de l'affichage des flèches
+    """
     def arrow_handler(self):
+        #si les flèches doivent avancer on change les positions en fonction
         if self.forward == True:
             self.arrow_r_rect.left += 1
             self.arrow_l_rect.left -= 1
             self.arrow_up_rect.top -= 1
             self.arrow_down_rect.top += 1
+            #si la position de la fleches dépasse un maximum on la fait reculer
             if self.arrow_r_rect.left > self.arrow_r_left + ARROW_MOVE:
                 self.forward = False
+        #si les fleches doivent reculer on change les positions en fonction
         else:
             self.arrow_r_rect.left -= 1
             self.arrow_l_rect.left += 1
             self.arrow_up_rect.top += 1
             self.arrow_down_rect.top -= 1
+            #si la position de la fleche depasse sa position initiale on la fait a nouveau avancer
             if self.arrow_r_rect.left <= self.arrow_r_left:
                 self.forward = True
 
-
+    """
+    Méthode d'affichage du menu Arcade
+    """
     def draw_arcade(self):
         while self.display:
             tick = self.clock.tick(FPS) 
             self.now = time.get_ticks()
             #posx : position des fiches avions
             #posy : position des couleurs d'avions dans les fiches
+            #si il ya a un event retourné alors on le retourne a nouveau
             event = self.event_handler()
             if event != None:
                 return event
+
+            #on affiche l'arriere plan
             self.screen.blit(self.background, (0, 0))
 
             #on gère et on affiche tous les cartes et avions
@@ -215,9 +250,11 @@ class Arcade_Interface:
             if self.display_frame:
                 self.screen.blit(self.frame, self.frame_rect)
 
+            #on fait bouger les fleches avec un certain délai pour pas que ca aille trop vite
             if self.now - self.last_anim > ARROW_DELAY:
                 self.last_anim = self.now
                 self.arrow_handler()
+            #on affiche les fleches
             if self.posx != 0:
                 self.screen.blit(self.arrow_l, self.arrow_l_rect)   
             if self.posx != len(self.img_planes[0])-1:

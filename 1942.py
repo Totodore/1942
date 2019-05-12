@@ -184,8 +184,11 @@ Fonction de création ou de changement de la save
 """
 def set_save(level):
     #on supprime l'ancienne save
-    os.remove("./save/save.txt")
-    #on créé une nouvelle
+    try:
+        os.remove("./save/save.txt")        
+    except FileNotFoundError:
+        pass
+    #on créé une nouvelle   
     save_file = open("./save/save.txt", "x")
     #on écrit le dernier niveau disponible dedans
     save_file.write(str(level))

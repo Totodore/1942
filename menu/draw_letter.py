@@ -24,7 +24,7 @@ peut aussi retourner QUIT pour fermer le jeu
 def draw_letter(surface, index, pos, end):
     #on charge le son  et le fond
     sound = mixer.Sound(bytes(path.join(SOUND_DIR, "typewriter.wav"), 'UTF-8'))
-    sound.set_volume(0.4)
+    sound.set_volume(0.5)
     mixer.music.load(path.join(SOUND_DIR, "letter_music.wav"))
     img = image.load(path.join(MENU_DIR, "fond_lettre.png")).convert_alpha()
     img = transform.scale(img, (1000, 600))
@@ -134,7 +134,9 @@ def draw_letter(surface, index, pos, end):
                 sound.fadeout(400)
 
         #on affiche le fond
-        surface.blit(img, (0, 0))
+        surface.fill(BLACK)
+        if index >= 0:
+            surface.blit(img, (0, 0))
         surface.blit(letter_img, (280, 105))
         i = 0
         #pour chaque ligne on l'affiche avec les bonnes coordonées

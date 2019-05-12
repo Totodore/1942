@@ -69,7 +69,6 @@ class EngineInterface:
         self.explosion_sound = []
         #on charges les explosions
         self.expls = load_expl()
-        self.last_item = 0
         #on recupère les fonds
         map_path = self.level_specs["map_path"]
         map_path = path.join(path.dirname(__file__), map_path)
@@ -90,6 +89,7 @@ class EngineInterface:
         #initialisation de variables
         self.last_spawn = pygame.time.get_ticks()
         self.last_gif = 0
+        self.last_item = pygame.time.get_ticks()
         self.plane_kill = 0
         self.all_sprites = sprite.Group()
         self.mobs = sprite.Group()

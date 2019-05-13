@@ -7,7 +7,7 @@
             "sound":"./sounds/planes/2.wav",
             "vitesse": 60,
             "vie": 40,
-            "random_shoot": 100,
+            "random_shoot": 200,
             "munitions": [
                 {
                     "id": 5,                    
@@ -130,8 +130,8 @@
                     "id": 6,                    
                     "image": "./img/mobs/bullets/Image6.png",
                     "sound": "./sounds/bullets/6.wav",
-                    "frequence_de_tir": 1000,
-                    "base_munitions": 50,
+                    "frequence_de_tir": 2000,
+                    "base_munitions": 25,
                     "vitesse": 50,
                     "degats": 200
                 }, 
@@ -153,23 +153,23 @@
             "sound": "./sounds/planes/0.wav",
             "vitesse": 25,
             "vie": 150,
-            "random_shoot": 150,
+            "random_shoot": 200,
             "munitions": [
                 {
                     "id": 3,                    
                     "image": "./img/mobs/bullets/Image3.png",
                     "sound": "./sounds/bullets/10.wav",
-                    "frequence_de_tir": 200,
-                    "base_munitions": 200,
-                    "vitesse": 50,
+                    "frequence_de_tir": 80,
+                    "base_munitions": 100,
+                    "vitesse": 100,
                     "degats": 25
                 },
                 {
                     "id": 6,
                     "image": "./img/mobs/bullets/Image6.png",
                     "sound": "./sounds/bullets/6.wav",
-                    "frequence_de_tir": 1000,
-                    "base_munitions": 50,
+                    "frequence_de_tir": 2000,
+                    "base_munitions": 25,
                     "vitesse": 50,
                     "degats": 200
                 }
@@ -182,14 +182,14 @@
             "sound": "./sounds/planes/0.wav",
             "vitesse": 25,
             "vie": 200,
-            "random_shoot": 125,
+            "random_shoot": 200,
             "munitions": [
                 {
                     "id": 6,
                     "image": "./img/mobs/bullets/Image6.png",
                     "sound": "./sounds/bullets/6.wav",
-                    "frequence_de_tir": 1000,
-                    "base_munitions": 50,
+                    "frequence_de_tir": 2000,
+                    "base_munitions": 25,
                     "vitesse": 50,
                     "degats": 200
                 },

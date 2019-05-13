@@ -52,7 +52,7 @@ class Arcade_Interface:
         self.arrow_down_rect.center = (self.frame_rect.centerx, HEIGHT-80)
 
         #chargement de la police d'écriture
-        self.write_font = font.Font(path.join(FONT_DIR, "ath.ttf"), 30)
+        self.write_font = font.Font("ath.ttf", 30)
 
         #initialisation des variables
         #self.posx: selection des avions avec fleches latérales

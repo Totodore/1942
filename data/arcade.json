@@ -5,10 +5,10 @@
     "img_name": "level_3.png",
     "description": "",
     "before": true,
-    "ammo_delay": 10000,
+    "ammo_delay": 30000,
     "cloud_delay": 10000,
     "ennemy_delay": 5000,
     "score_max": -1,
-    "wave_size": 3,
-    "ammo_size": 50
+    "wave_size": 6,
+    "ammo_size": 100
 }

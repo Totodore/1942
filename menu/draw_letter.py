@@ -35,8 +35,7 @@ def draw_letter(surface, index, pos, end):
     
     run = True
     clock = time.Clock()
-    write_font = font.Font(path.join(FONT_DIR, "letter_font.ttf"), 16)
-
+    write_font = font.Font("font_letter.ttf", 16)
     if index >= 0:
         #si on a perdu ou gagné on recup le texte
         if end == "win":
@@ -49,7 +48,7 @@ def draw_letter(surface, index, pos, end):
     #si index < 0 cela veut dire que c'est la lettre d'introduction
     else:
         text = json.load(open(path.join(DATA_DIR, "first_letter.json")))["text"]
-    text.encode(encoding='UTF-8')
+    # text.encode(encoding='UTF-8')
     #delay de l'écriture et du son et du clignotement
     last_write = 0
     last_sound = 0

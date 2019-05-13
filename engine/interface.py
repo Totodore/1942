@@ -255,7 +255,7 @@ class EngineInterface:
                     return pygame.QUIT
                 #si on appuis sur q on change de munition
                 if event.type == KEYUP:
-                    if event.key == K_q:
+                    if event.key == K_q or event.key == K_a:
                         self.player.swap_ammo()
                     #si on appuis sur echape on ferme la partie
                     elif event.key == K_ESCAPE:

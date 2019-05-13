@@ -45,10 +45,7 @@ class ATH(sprite.Sprite):
     Arguments : text : string, size : taille d'écriture, x,y : position, right : si c'est aligné à droite ou pas
     """
     def __draw_text(self, text, size, x, y, right, font_name=None):
-        if font_name:
-            font_t = font.Font(font.get_default_font(), size)
-        else:
-            font_t = font.Font(path.join(FONT_DIR, "ath.ttf"), size)
+        font_t = font.Font("ath.ttf", size)
         text_surface = font_t.render(text, True, (227, 180, 77))
         text_rect = text_surface.get_rect()
         if right:
@@ -89,4 +86,4 @@ class ATH(sprite.Sprite):
         self.surface.blit(self.player.ammo_image[new_ammo], rect_new)
         self.surface.blit(self.player.ammo_image[self.player.ammo_index], rect)
         self.__draw_text(str(self.player.ammo_number[self.player.ammo_index]), 40, 960, 522, right=True)
-        self.__draw_text("Q", 40, 805, self.q_top, right=False, font_name=True)
+        self.__draw_text("Q", 40, 805, self.q_top, right=False)

@@ -22,6 +22,8 @@ retourne la position dans le texte si il n'y a plus la place dans la lettre pour
 peut aussi retourner QUIT pour fermer le jeu
 """
 def draw_letter(surface, index, pos, end):
+    mixer.stop()
+    mixer.music.stop()
     #on charge le son  et le fond
     sound = mixer.Sound(bytes(path.join(SOUND_DIR, "typewriter.wav"), 'UTF-8'))
     sound.set_volume(0.5)

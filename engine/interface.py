@@ -96,6 +96,12 @@ class EngineInterface:
         self.bullets = sprite.Group()
         self.mob_bullets = sprite.Group()
         self.backgrounds = []
+        #chargement de la musique
+        mixer.stop()
+        mixer.music.stop()
+        mixer.music.load(path.join(SOUND_DIR, "war_music.wav"))
+        mixer.music.set_volume(0.8)
+        
         #on ajoute le premier fond a la liste des fonds actifs
         self.backgrounds.append(Background(self.bg_images[0], False))
         self.map_index = 0
@@ -123,6 +129,10 @@ class EngineInterface:
             self.all_sprites.add(m)
             self.mobs.add(m)
         self.start_time = time.get_ticks() 
+
+        #on lance la musique en boucle
+        mixer.music.play(-1)
+
         #on retourne la méthode run_game()
         return self.__run_game()
 

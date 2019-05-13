@@ -4,7 +4,7 @@ import os
 import math
 import PIL
 from os import path
-from pygame import sprite, image, transform, mask, font
+from pygame import sprite, image, transform, mask, font, time
 from engine.bullet import Bullet
 from engine.engine_constants import *
 
@@ -25,7 +25,11 @@ class ATH(sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = (0, 0)
         self.score = 0
-
+        self.grow_q = (530, 540)
+        self.grow_q_delay = 40
+        self.q_top = self.grow_q[0]
+        self.grow_q_forward = True
+        self.last_grow = 0
         self.ammo_image = []
 
     """
@@ -40,8 +44,11 @@ class ATH(sprite.Sprite):
     Méthode d'affichage du texte
     Arguments : text : string, size : taille d'écriture, x,y : position, right : si c'est aligné à droite ou pas
     """
-    def __draw_text(self, text, size, x, y, right):
-        font_t = font.Font(path.join(FONT_DIR, "ath.ttf"), size)
+    def __draw_text(self, text, size, x, y, right, font_name=None):
+        if font_name:
+            font_t = font.Font(font.get_default_font(), size)
+        else:
+            font_t = font.Font(path.join(FONT_DIR, "ath.ttf"), size)
         text_surface = font_t.render(text, True, (227, 180, 77))
         text_rect = text_surface.get_rect()
         if right:
@@ -52,12 +59,23 @@ class ATH(sprite.Sprite):
 
     """
     Méthode de mise à jour de la position et du contenu de l'ATH
-    Arguments : killed : nombre d'avions tués, time : temps écoulé depuis le début de la partie
+    Arguments : killed : nombre d'avions tués, time_d : temps écoulé depuis le début de la partie
     """
-    def update_ath(self, killed, time):
+    def update_ath(self, killed, time_d):
+        now = time.get_ticks()
+        if now - self.last_grow > self.grow_q_delay:
+            self.last_grow = now
+            if self.grow_q_forward: self.q_top += 1
+            else: self.q_top -=1
+            
+            if self.q_top < self.grow_q[0] and not self.grow_q_forward:
+                self.grow_q_forward = True
+            elif self.q_top > self.grow_q[1] and self.grow_q_forward:
+                self.grow_q_forward = False
+
         #on affiche le nombre de tués le score
         self.__draw_text(str(killed), 40, 40, 110, right=False)
-        self.score = self.process_score(killed, time)
+        self.score = self.process_score(killed, time_d)
         self.__draw_text(str(self.score), 40, 40, 48, right=False)
         #on positionne les munitions
         rect = self.player.ammo_image[self.player.ammo_index].get_rect()
@@ -71,3 +89,4 @@ class ATH(sprite.Sprite):
         self.surface.blit(self.player.ammo_image[new_ammo], rect_new)
         self.surface.blit(self.player.ammo_image[self.player.ammo_index], rect)
         self.__draw_text(str(self.player.ammo_number[self.player.ammo_index]), 40, 960, 522, right=True)
+        self.__draw_text("Q", 40, 805, self.q_top, right=False, font_name=True)

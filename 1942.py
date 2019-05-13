@@ -10,8 +10,6 @@ from engine.interface import EngineInterface
 from os import path
 from constants import *
 
-# global screen, actual_level
-
 """
 Fonction qui récupère les évenements correspondant à la fermeture du jeu
 """
@@ -27,6 +25,7 @@ def getBasicEvent(event):
 Fonction d'affichage du menu start
 """
 def draw_menu_start():
+    global arrow_l, forward, arrow_r, arrow_r_left, arrow_r_rect, arrow_l_rect
     menu = True
     continue_game = True
     fonds= []
@@ -36,6 +35,21 @@ def draw_menu_start():
         img = pygame.image.load(path.join(START_DIR, file))
         img = pygame.transform.scale(img, (WIDTH, HEIGHT))
         fonds.append(img)
+
+    #chargement et positionnement des flèches
+    last_anim = 0
+    arrow_l = pygame.image.load(path.join(ARCADE_DIR, "arrow_left.png")).convert_alpha()
+    arrow_r = pygame.image.load(path.join(ARCADE_DIR, "arrow_right.png")).convert_alpha()
+    arrow_l_left = 100
+    arrow_r_left = WIDTH-100
+    forward = True
+
+    #on affiche les flèches informatives
+    arrow_r_rect = arrow_r.get_rect()
+    arrow_r_rect.center = (WIDTH-40, int(HEIGHT/2))
+    arrow_l_rect = arrow_l.get_rect()
+    arrow_l_rect.center = (40, int(HEIGHT/2))
+
     #boucle de jeu
     while menu:
         #on récupère les evenements
@@ -87,7 +101,6 @@ def draw_menu_start():
                             #on lance le jeu
                             response = newGame.draw_game()
                             #à la fin du jeu on coupe les sons de celui-ci
-                            pygame.mixer.fadeout(200)
                             if response == pygame.QUIT:
                                 menu = False
                                 continue_game = False
@@ -128,9 +141,18 @@ def draw_menu_start():
             if getBasicEvent(event):
                 menu = False
                 continue_game = False 
+        now = pygame.time.get_ticks()
+        if now - last_anim > ARROW_DELAY:
+            last_update = now
+            forward = arrow_handler(forward)    
         #on affiche le fond
         screen.blit(fonds[index], (0,0))
-        pygame.mixer.fadeout(200)
+        if index == 0:
+            screen.blit(arrow_r, arrow_r_rect)
+        else:
+            screen.blit(arrow_l, arrow_l_rect)
+        pygame.mixer.music.stop()
+        pygame.mixer.stop()
         pygame.display.flip()
     return continue_game
 
@@ -194,6 +216,28 @@ def set_save(level):
     save_file.write(str(level))
     save_file.close()
 
+"""
+Fonction de gestion des flêches d'affichage
+Retourne la variable forward : direction des fleches
+"""
+def arrow_handler(forward):
+    #si les flèches doivent avancer on change les positions en fonction
+    if forward == True:
+        arrow_r_rect.left += 1
+        arrow_l_rect.left -= 1
+        #si la position de la fleches dépasse un maximum on la fait reculer
+        if arrow_r_rect.left > arrow_r_left + ARROW_MOVE:
+            return False
+        else: return True
+    #si les fleches doivent reculer on change les positions en fonction
+    else:
+        arrow_r_rect.left -= 1
+        arrow_l_rect.left += 1
+        #si la position de la fleche depasse sa position initiale on la fait a nouveau avancer
+        if arrow_r_rect.left <= arrow_r_left:
+            return True
+        else: return False
+
 #on initialise le gestionnaire de son de pygame ainsi que pygame
 pygame.mixer.pre_init(44100, 16, 2, 4096)
 pygame.init()
@@ -202,7 +246,6 @@ pygame.mixer.set_num_channels(48)
 #on créer la fenetre
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("1942")
-
 
 # Boucle principale
 CONTINUE = True

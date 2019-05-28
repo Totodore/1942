@@ -343,5 +343,8 @@ class EngineInterface:
                     return "succeed"
             #si on a perdu la méthode renvoie perdu
             if lost and lost == "lost":
-                return "lost"
+                if self.max_score > 0:
+                    return "lost"
+                else:
+                    return (self.ath.score, self.plane_kill)
             pygame.display.flip()

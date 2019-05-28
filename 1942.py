@@ -5,6 +5,8 @@ import os
 from menu.draw_letter import draw_letter
 from menu.draw_select import draw_select
 from menu.draw_arcade import Arcade_Interface
+from menu.draw_score import Score_Interface
+from menu.save_handler import set_save_campain, get_save_campain
 from engine.interface import EngineInterface
 
 from os import path
@@ -74,17 +76,23 @@ def draw_menu_start():
                             if response == pygame.QUIT:
                                 menu = False
                                 continue_game = False
+                            elif isinstance(response, tuple):
+                                score_interface = Score_Interface(screen, response) 
+                                response_score = score_interface.draw_score()
+                                if response_score == pygame.QUIT:
+                                    menu = False
+                                    continue_game = False
                         
                     #si on a selectionné le mode Campagne
                     else:
                         #si il n'y a pas de save on affiche la lettre d'introduction
-                        if get_save() == -1:
+                        if get_save_campain() == -1:
                             if draw_menu_letter(-1) == pygame.QUIT:
                                 menu = False
                                 continue_game = False
                                 break
                         #on affiche le menu de selection des niveaux
-                        selector = draw_select(screen, get_save())
+                        selector = draw_select(screen, get_save_campain())
                         if selector == pygame.QUIT:
                             menu = False
                             continue_game = False
@@ -108,7 +116,7 @@ def draw_menu_start():
                             #si le jeu renvoie "succeed" alors la mission est réussie on affiche la lettre de réussite et on met à jour la save
                             elif isinstance(response, str):
                                 if response == "succeed":
-                                    set_save(selector+1)
+                                    set_save_campain(selector+1)
                                     if draw_menu_letter(selector, "win") == pygame.QUIT:
                                         menu = False
                                         continue_game = False
@@ -183,38 +191,7 @@ def draw_menu_plane():
 
 #-1: premier lancement du jeu affichage de la lettre d'intro
 #sinon index du dernier niveau disponible
-"""
-Fonction de récupèration de la sauvegarde
-"""
-def get_save():
-    save_file = None
-    #si ya pas de fichier lance la création d'un fichier de sauvegarde et on retourne -1
-    try:
-        save_file = open("./save/save.txt", "r")        
-    except FileNotFoundError:
-        set_save(0)
-        return -1
-    line = save_file.readline()
-    if len(line) != 1: #si le contenus du fichier save est différent de un caractère on créer save et on retourne -1
-        set_save(0)
-        return -1
-    #sinon on retourne l'index de la save
-    return line
 
-"""
-Fonction de création ou de changement de la save
-"""
-def set_save(level):
-    #on supprime l'ancienne save
-    try:
-        os.remove("./save/save.txt")        
-    except FileNotFoundError:
-        pass
-    #on créé une nouvelle   
-    save_file = open("./save/save.txt", "x")
-    #on écrit le dernier niveau disponible dedans
-    save_file.write(str(level))
-    save_file.close()
 
 """
 Fonction de gestion des flêches d'affichage

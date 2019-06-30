@@ -15,12 +15,12 @@ def get_online_score():
     #On trie le score
     sorted_score = []
     #Pour chaque score à trier
-    for score in score_json["score"]:
+    for score in score_json["score_list"]:
         i = 0
         #Pour chaque score déjà trié
-        for sorted_score in sorted_score:
+        for sorted_score_el in sorted_score:
             #si le score à trier est plus petit qu'un score trié on le met juste après
-            if score["score"] < sorted_score["score"]:
+            if score["score"] < sorted_score_el["score"]:
                 sorted_score.insert(i, score)
                 break
             i += 1

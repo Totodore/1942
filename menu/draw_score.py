@@ -1,16 +1,31 @@
-from pygame import *
+from pygame import image
 from constants import *
 from menu.save_handler import set_save_arcade, get_save_arcade
-from menu.accout_handler import set_online_score, get_online_score
+from menu.account_handler import set_online_score, get_online_score
 import pygame
 
 class Score_Interface:
+    """
+    stats : tuple [score, plane_kill]
+    """
     def __init__(self, screen, stats):
         self.json_data_local = get_save_arcade()
-        self.json_data_online = get_online_score()
+        # self.json_data_online = get_online_score()
         self.stats = stats
         self.screen = screen
-        self.keep_drawing = False
+        self.keep_drawing = True
+
+        self.bg = image.load(path.join(SCORE_DIR, "scores_background.png")).convert_alpha()
+        self.divs = (image.load(path.join(SCORE_DIR, "div_online.png")).convert_alpha(), image.load(path.join(SCORE_DIR, "div_local.png")).convert_alpha())
+        self.div_index = 0;
+        self.draw_score()
+
+    def getBasicEvent(self, event):
+        if event.type == pygame.QUIT:                
+            return True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_F4:
+                return True
 
 
     """
@@ -55,7 +70,15 @@ class Score_Interface:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     self.keep_drawing = False
-            if self.getBasicEvent():
+                if event.key == pygame.K_RIGHT:
+                    self.div_index += 1
+                    if self.div_index > 1:
+                        self.div_index = 0
+                if event.key == pygame.K_LEFT:
+                    self.div_index -=1
+                    if self.div_index < 0:
+                        self.div_index = 1
+            if self.getBasicEvent(event):
                 self.keep_drawing = False
                 return pygame.QUIT
 
@@ -67,7 +90,9 @@ class Score_Interface:
             if event != None:
                 return event
 
-            self.screen.blit(Rect(0, 0, 1000, 600), GREEN)
+            # self.screen.blit(Rect(0, 0, 1000, 600), GREEN)
+            self.screen.blit(self.bg, (0,0))
+            self.screen.blit(self.divs[self.div_index], (0, 0));
 
             pygame.display.flip()
 
@@ -77,9 +102,3 @@ class Score_Interface:
     def switch_score(self):
         pass
 
-    def getBasicEvent(self, event):
-        if event.type == pygame.QUIT:                
-            return True
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_F4:
-                return True

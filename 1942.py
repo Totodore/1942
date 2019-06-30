@@ -4,6 +4,7 @@ import os
 #import du moteur de jeu et des fonctions menu
 from menu.draw_letter import draw_letter
 from menu.draw_select import draw_select
+from menu.draw_score import Score_Interface
 from menu.draw_arcade import Arcade_Interface
 from menu.draw_score import Score_Interface
 from menu.save_handler import set_save_campain, get_save_campain
@@ -52,6 +53,7 @@ def draw_menu_start():
     arrow_l_rect = arrow_l.get_rect()
     arrow_l_rect.center = (40, int(HEIGHT/2))
 
+    score_interface = Score_Interface(screen, (50, 50));
     #boucle de jeu
     while menu:
         #on récupère les evenements

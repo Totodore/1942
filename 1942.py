@@ -53,7 +53,7 @@ def draw_menu_start():
     arrow_l_rect = arrow_l.get_rect()
     arrow_l_rect.center = (40, int(HEIGHT/2))
 
-    score_interface = Score_Interface(screen, (50, 50));
+    Score_Interface(screen, (200, 200)).draw_score();
     #boucle de jeu
     while menu:
         #on récupère les evenements

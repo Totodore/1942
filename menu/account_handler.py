@@ -3,7 +3,7 @@ import json
 
 def get_online_score():
     try:
-        r = requests.get("http://xrtp.scriptis.fr/scores.json")
+        r = requests.get("http://xrtp.scriptis.fr/scores.json", timeout=5)
         score_json = r.json()
     except requests.ConnectionError:
         print("ERROR ! Connection error while requesting online scores, check your connection or contact us")
@@ -11,11 +11,14 @@ def get_online_score():
     except requests.Timeout:
         print("ERROR ! Connection timed out while requesting online scores, check your connection or contact us")
         return False
+    if len(score_json) == 0:
+        print("ERROR ! Connection error while requesting online scores, check your connection or contact us")
+        return False
 
     #On trie le score
     sorted_score = []
     #Pour chaque score à trier
-    for score in score_json["score_list"]:
+    for score in score_json["score"]:
         i = 0
         #Pour chaque score déjà trié
         for sorted_score_el in sorted_score:
@@ -28,7 +31,7 @@ def get_online_score():
         # qu'il est plus grand que tous alors on le met en premier
         if not score in sorted_score:
             sorted_score.insert(0, score)
-    return sorted_score
+        return sorted_score
 
 
 def set_online_score(json_data):

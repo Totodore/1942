@@ -1,6 +1,7 @@
 from constants import *
 from pygame import transform, sprite, image, time, font, mixer, rect, draw, time
 from os import path
+from menu.draw_score import Score_Interface
 import pygame
 import json
 import os
@@ -14,11 +15,13 @@ class Arcade_Interface:
         self.display = True
         self.screen = screen
         self.clock = time.Clock()
+
         #Chargement du JSON et de toutes les images
         self.json_planes = json.load(open(path.join(DATA_DIR, "player.json")))["body"]
         self.background = image.load(path.join(ARCADE_DIR, "arcade_background.png")).convert_alpha()
         self.carte = image.load(path.join(ARCADE_DIR, "arcade_map.png")).convert_alpha()
         self.frame = image.load(path.join(ARCADE_DIR, "frame_arcade.png")).convert_alpha()
+        self.score_btn = image.load(path.join(SCORE_DIR, "btn_score.png")).convert_alpha()
 
         #redimmensionnement des images
         self.carte = transform.scale(self.carte, (310, 500))
@@ -29,6 +32,12 @@ class Arcade_Interface:
         self.frame_rect.y = int((HEIGHT-self.carte.get_height())/2)-10
         self.frame_rect.x = 10
 
+        #Variable d'animation de lettres
+        self.grow_s = (0, 5)
+        self.grow_s_delay = 50
+        self.s_top = self.grow_s[0]
+        self.grow_s_forward = True
+        self.last_grow = 0
         #chargement et positionnement des flèches
         self.last_anim = 0
         self.arrow_l = image.load(path.join(ARCADE_DIR, "arrow_left.png")).convert_alpha()
@@ -110,6 +119,11 @@ class Arcade_Interface:
                     self.posy -= 1
                     if self.posy < 0:
                         self.posy = 0
+                #Touche S on affiche les scores
+                elif event.key == pygame.K_s:
+                    event = Score_Interface(self.screen).draw_score()
+                    if event == pygame.QUIT:
+                        return pygame.QUIT
                 #appuis sur entrer : on retourne l'avion et la couleure
                 elif event.key == pygame.K_RETURN:
                     return (self.posx, self.posy)
@@ -184,7 +198,7 @@ class Arcade_Interface:
                 text_ammo_rect = text_ammo_surface.get_rect()
                 text_ammo_rect.top = ammo_rect.bottom
                 text_ammo_rect.centerx = ammo_rect.centerx
-                #on créé un petit rectangle autour de chaque munition
+                #on créé un petit rectangle autour de "chaque" munition
                 rect = ammo_rect.copy()
                 rect.height += text_ammo_rect.height + 7
                 rect.width = text_ammo_rect.width + 10
@@ -220,6 +234,14 @@ class Arcade_Interface:
             if self.arrow_r_rect.left <= self.arrow_r_left:
                 self.forward = True
 
+    def s_anim_handler(self):
+        if self.grow_s_forward: self.s_top += 1
+        else: self.s_top -=1
+        
+        if self.s_top < self.grow_s[0] and not self.grow_s_forward:
+            self.grow_s_forward = True
+        elif self.s_top > self.grow_s[1] and self.grow_s_forward:
+            self.grow_s_forward = False
     """
     Méthode d'affichage du menu Arcade
     """
@@ -239,7 +261,7 @@ class Arcade_Interface:
 
             #on gère et on affiche tous les cartes et avions
             self.planes_handler()     
-            
+
             #on fait clignoter le cadre
             if self.now - self.last_flash > FLASH_DELAY:
                 self.last_flash = self.now
@@ -254,6 +276,11 @@ class Arcade_Interface:
             if self.now - self.last_anim > ARROW_DELAY:
                 self.last_anim = self.now
                 self.arrow_handler()
+            #On fait bouger les lettres avec un certain delai pareil que les fleches
+            if self.now - self.last_grow > self.grow_s_delay:
+                self.last_grow = self.now
+                self.s_anim_handler()
+
             #on affiche les fleches
             if self.posx != 0:
                 self.screen.blit(self.arrow_l, self.arrow_l_rect)   
@@ -263,6 +290,11 @@ class Arcade_Interface:
                 self.screen.blit(self.arrow_down, self.arrow_down_rect)
             if self.posy != len(self.img_planes[0][self.posx])-1:
                 self.screen.blit(self.arrow_up, self.arrow_up_rect)
+            
+            #On affiche le bouton score
+            self.screen.blit(self.score_btn, (0, 0))
+            caption = self.write_font.render("S", True, WHITE)
+            self.screen.blit(caption, (125, self.s_top))
             pygame.display.flip()
 
     def getBasicEvent(self, event):

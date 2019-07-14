@@ -1,7 +1,7 @@
 {
     "score": [
         {
-            "name": "GROS GRos dore",
+            "name": "Totodore",
             "score": 200,
             "plane_kills": 200
         },
@@ -21,9 +21,9 @@
             "plane_kills": 50
         },
         {
-            "name": "Totodore",
-            "score": 200,
-            "plane_kills": 200
+            "name": "totodore",
+            "score": 1600,
+            "plane_kills": 12
         }
     ]
 }

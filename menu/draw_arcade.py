@@ -121,8 +121,8 @@ class Arcade_Interface:
                         self.posy = 0
                 #Touche S on affiche les scores
                 elif event.key == pygame.K_s:
-                    event = Score_Interface(self.screen).draw_score()
-                    if event == pygame.QUIT:
+                    event_score = Score_Interface(self.screen).draw_score()
+                    if event_score == pygame.QUIT:
                         return pygame.QUIT
                 #appuis sur entrer : on retourne l'avion et la couleure
                 elif event.key == pygame.K_RETURN:
@@ -234,6 +234,9 @@ class Arcade_Interface:
             if self.arrow_r_rect.left <= self.arrow_r_left:
                 self.forward = True
 
+    """
+    Méthode d'animation du bouton d'animation des scores
+    """
     def s_anim_handler(self):
         if self.grow_s_forward: self.s_top += 1
         else: self.s_top -=1
@@ -242,6 +245,7 @@ class Arcade_Interface:
             self.grow_s_forward = True
         elif self.s_top > self.grow_s[1] and self.grow_s_forward:
             self.grow_s_forward = False
+
     """
     Méthode d'affichage du menu Arcade
     """

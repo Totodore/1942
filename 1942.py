@@ -43,7 +43,6 @@ def draw_menu_start():
     last_anim = 0
     arrow_l = pygame.image.load(path.join(ARCADE_DIR, "arrow_left.png")).convert_alpha()
     arrow_r = pygame.image.load(path.join(ARCADE_DIR, "arrow_right.png")).convert_alpha()
-    arrow_l_left = 100
     arrow_r_left = WIDTH-100
     forward = True
 
@@ -61,7 +60,7 @@ def draw_menu_start():
                 #si on appuis sur espace ou entrer
                 if event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
                     #si on a selectionné le mode Arcade
-                    if index == 0:
+                    if index == 1:
                         #on affiche le menu de selection des avions
                         #peut retourner l'id de l'avion et l'id de la couleure ou l'evenement QUIT
                         selector = draw_menu_plane()
@@ -156,7 +155,7 @@ def draw_menu_start():
             forward = arrow_handler(forward)    
         #on affiche le fond
         screen.blit(fonds[index], (0,0))
-        if index == 0:
+        if index == 1:
             screen.blit(arrow_r, arrow_r_rect)
         else:
             screen.blit(arrow_l, arrow_l_rect)

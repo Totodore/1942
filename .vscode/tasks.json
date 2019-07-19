@@ -4,9 +4,13 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "echo",
+            "label": "run python",
             "type": "shell",
-            "command": "echo Hello"
+            "command": "python3 1942.py",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

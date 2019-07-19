@@ -86,6 +86,13 @@ class Score_Interface:
             self.online_loaded = True
 
     """
+    Méthode thread pour sauvegarder les scores en ligne
+    """
+    def save_online_score(self):
+        if set_online_score(self.data_to_save):
+            print("Score saved")
+
+    """
     Méthode de récup des evenements de fermeture
     """
     def getBasicEvent(self, event):
@@ -99,6 +106,7 @@ class Score_Interface:
     """
     Méthode qui détermine si l'on est dans le top 10 ou pas en mode local et en mode hors ligne
     si name est passé en argument on sauvegarde les scores
+    Cette méthode est appelée deux fois, la première pour savoir si on peut ajouter un score la seconde pour l'ajouter avec le nom
     """
     def check_score(self, name=None):
         #Si il reste encore de la place parmis les 5 meilleurs local
@@ -129,7 +137,6 @@ class Score_Interface:
     def save_score(self, name, remove_last, online = False):
         if online: json_data = self.json_data_online
         else: json_data = self.json_data_local
-
         if remove_last:
             del json_data[-1]
         json_data.append({
@@ -137,7 +144,8 @@ class Score_Interface:
             "score": self.stats[0],
             "plane_kills": self.stats[1],
         })
-        if online: set_online_score(json_data)
+        self.data_to_save = json_data #json data global pour la fonction Thread
+        if online: Thread(target=self.save_online_score).start()
         else: set_save_arcade(json_data)
 
     """

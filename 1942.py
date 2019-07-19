@@ -48,10 +48,12 @@ def draw_menu_start():
 
     #on affiche les flèches informatives
     arrow_r_rect = arrow_r.get_rect()
-    arrow_r_rect.center = (WIDTH-40, int(HEIGHT/2))
+    arrow_r_rect.center = (WIDTH-40, HEIGHT//2)
     arrow_l_rect = arrow_l.get_rect()
-    arrow_l_rect.center = (40, int(HEIGHT/2))
+    arrow_l_rect.center = (40, HEIGHT//2)
 
+    score = Score_Interface(screen, (5,5))
+    score.draw_score()
     #boucle de jeu
     while menu:
         #on récupère les evenements
@@ -134,14 +136,10 @@ def draw_menu_start():
                                         continue_game = False
                                         break
                 #changement entre les modes arcades et campagne
-                if event.key == pygame.K_RIGHT:
-                    index += 1
-                    if index > 1:
-                        index = 0
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_RIGHT and index > 0:
                     index -= 1
-                    if index < 0:
-                        index = 1
+                if event.key == pygame.K_LEFT and index < 1:
+                    index += 1
                 #on ferme si on appuis sur echape
                 if event.key == pygame.K_ESCAPE:
                     menu = False
@@ -151,7 +149,7 @@ def draw_menu_start():
                 continue_game = False 
         now = pygame.time.get_ticks()
         if now - last_anim > ARROW_DELAY:
-            last_update = now
+            last_anim = now
             forward = arrow_handler(forward)    
         #on affiche le fond
         screen.blit(fonds[index], (0,0))
@@ -223,7 +221,7 @@ pygame.mixer.set_num_channels(48)
 #on créer la fenetre
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("1942")
-
+pygame.display.set_icon(pygame.image.load("1942.ico").convert_alpha())
 # Boucle principale
 CONTINUE = True
 while CONTINUE:

@@ -74,7 +74,7 @@ class Mob(sprite.Sprite):
         #on récupère l'image de munitions et on la transforme
         self.ammo_image = image.load(self.ammo["image"]).convert_alpha()
         self.ammo_image = transform.rotate(self.ammo_image, 180)
-        size = (int(self.ammo_image.get_width()/4), int(self.ammo_image.get_height()/4))
+        size = (self.ammo_image.get_width()//4, self.ammo_image.get_height()//4)
         self.ammo_image = transform.scale(self.ammo_image, size)
         self.image = self.group_image[0]
         #on génère une position et une direction aléatoire

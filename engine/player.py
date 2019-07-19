@@ -61,7 +61,7 @@ class Player(sprite.Sprite):
 
         #on paramètre le rectangle d'affichage de la vie avec un rect extérieur pour la bordure noir
         #et un intérieur de couleur pour l'affichage de la vie
-        self.rect_life = Rect(0 + int(WIDTH*(1/4)), HEIGHT-10, WIDTH-int(WIDTH*(1/2)), 10)
+        self.rect_life = Rect(0 + WIDTH//4, HEIGHT-10, WIDTH-WIDTH//2, 10)
         self.rect_life_inner = self.rect_life.copy()
         self.rect_life_inner.left += 1
         self.rect_life_inner.top += 1
@@ -92,7 +92,7 @@ class Player(sprite.Sprite):
         #idem pour chaque munition avec les trois array representant les images, le nombre de munitions et les sons par munitions
         for file in self.ammo:
             img = image.load(path.join(file["image"])).convert_alpha()
-            size = (int(img.get_width()/3), int(img.get_height()/3))
+            size = (img.get_width()//3, img.get_height()//3)
             img = transform.scale(img, size)
             img.set_colorkey(BLACK)
             self.ammo_image.append(img)

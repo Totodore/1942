@@ -37,7 +37,7 @@ class ATH(sprite.Sprite):
     """
     def process_score(self, killed, time):
         killed *= 100
-        time = int(time/100)
+        time = time//100
         return killed + time
 
     """

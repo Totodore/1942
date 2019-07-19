@@ -29,7 +29,7 @@ class Arcade_Interface:
 
         #on positionne le cadre de selection
         self.frame_rect = self.frame.get_rect()
-        self.frame_rect.y = int((HEIGHT-self.carte.get_height())/2)-10
+        self.frame_rect.y = (HEIGHT-self.carte.get_height())//2-10
         self.frame_rect.x = 10
 
         #Variable d'animation de lettres
@@ -52,9 +52,9 @@ class Arcade_Interface:
 
         #on affiche les flèches informatives
         self.arrow_r_rect = self.arrow_r.get_rect()
-        self.arrow_r_rect.center = (WIDTH-40, int(HEIGHT/2))
+        self.arrow_r_rect.center = (WIDTH-40, HEIGHT//2)
         self.arrow_l_rect = self.arrow_l.get_rect()
-        self.arrow_l_rect.center = (40, int(HEIGHT/2))
+        self.arrow_l_rect.center = (40, HEIGHT/2)
         self.arrow_up_rect = self.arrow_up.get_rect()
         self.arrow_up_rect.center = (self.frame_rect.centerx, 80)
         self.arrow_down_rect = self.arrow_down.get_rect()
@@ -80,14 +80,14 @@ class Arcade_Interface:
             colors.sort()
             for color in colors:
                 img = image.load(path.join(plane["image"], color, "1.png")).convert_alpha()
-                img = transform.scale(img, (int(img.get_width()/1.5), int(img.get_height()/1.5)))
+                img = transform.scale(img, (int(img.get_width()//1.5), int(img.get_height()//1.5)))
                 color_planes.append(img)
             ammo_planes = []
             #pour chaque munitions on charge l'image et on met le tout en parallele avec les 
             #couleurs dans l'array des avions
             for ammo in plane["munitions"]:
                 img = image.load(ammo["image"]).convert_alpha()
-                img = transform.scale(img, (int(img.get_width()/3), int(img.get_height()/3)))
+                img = transform.scale(img, (img.get_width()//3, img.get_height()//3))
                 ammo_planes.append(img)
             self.img_planes[0].append(color_planes)
             self.img_planes[1].append(ammo_planes)
@@ -145,7 +145,7 @@ class Arcade_Interface:
             #on ajoute le nombre de pixels par carte avion pour avoir un affichage en ligne
             #on soustrait par le nombre pixel correspondant a la position pour avoir un défilement
             x = 20 + ((self.carte.get_width()+10)*i) - ((self.carte.get_width()+10)*self.posx)
-            y = int((HEIGHT-self.carte.get_height())/2)
+            y = (HEIGHT-self.carte.get_height())//2
             carte_rect = self.carte.get_rect()
             carte_rect.x = x
             carte_rect.y = y
@@ -159,8 +159,8 @@ class Arcade_Interface:
 
             #on positionne l'avion
             plane_rect = plane.get_rect()
-            plane_rect.centerx = int(carte_rect.width/2) + x
-            plane_rect.centery = int(carte_rect.height/4) + 20
+            plane_rect.centerx = carte_rect.width//2 + x
+            plane_rect.centery = carte_rect.height//4 + 20
 
             #on écrit toutes les stats
             text_life_surface = self.write_font.render(str(self.json_planes[i]["vie"]), True, BLACK)

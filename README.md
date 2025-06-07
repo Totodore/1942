@@ -1,4 +1,4 @@
 # 1942
 Video Game in Python
 
-War planes video game in developement...
+War planes video game.
